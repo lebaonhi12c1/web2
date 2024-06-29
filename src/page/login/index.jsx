@@ -2,15 +2,19 @@ import { memo, useState } from 'react';
 import { login } from '@/constants/api.js'
 import LoginComponent from '@/components/auth/LoginGoogle.jsx';
 import { useLogin } from '@/hooks/use-login';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { me } from '@/constants/api.js'
 
 const Login = memo(() => {
+    const navigate = useNavigate(); // Initialize useNavigate
     const [email, setEmail] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const [password, setPassword] = useState('');
     const { trigger } = useLogin();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+        setIsLoading(true);
         const response = await fetch(login, {
             method: 'POST',
             headers: {
@@ -23,14 +27,49 @@ const Login = memo(() => {
 
         if (response.ok) 
         {
-            console.log('Login successful:', data);
-            // Handle successful login (e.g., redirect, store token, etc.)
+            const token = data?.accessToken?.token;
+
+            if (token) 
+            {
+                localStorage.setItem('accessToken', token);
+
+                try {
+                    // Ensure mutate is completed before navigating
+                    const response = await fetch(me, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+            
+                    const data = await response.json();
+            
+                    if (response.ok) 
+                    {
+                        localStorage.setItem('user', JSON.stringify(data?.data));
+                        console.log('Login successful:', data);
+                        // Handle successful login (e.g., redirect, store token, etc.)
+                    } 
+                    else 
+                    {
+                        console.error('Login failed:', data);
+                        // Handle login failure (e.g., show error message)
+                    }
+                    navigate('/'); // Navigate to the homepage
+                } catch (error) {
+                    console.error('Error during mutate or navigation:', error);
+                }
+            }
         } 
         else 
         {
             console.error('Login failed:', data);
             // Handle login failure (e.g., show error message)
+            alert(data?.message || 'Login failed!!');
+
         }
+        setIsLoading(false);
     };
 
     return (
@@ -66,7 +105,17 @@ const Login = memo(() => {
                                     </div>
                                     <a href="#" className="text-sm font-medium text-green-600 hover:underline ">Forgot password?</a>
                                 </div>
-                                <button type="submit" className="w-full text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Sign in</button>
+                                <button
+                                    type="submit"
+                                    className="w-full flex justify-center items-center text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                                    disabled={isLoading}
+                                    >
+                                    {isLoading ? (
+                                        <div className="animate-spin border-t border-r border-b  rounded-full border-white h-3 w-3"></div>
+                                    ) : (
+                                        'Sign in'
+                                    )}
+                                </button>
                                 <div className='flex gap-4 items-center'>
                                     <span className='w-full border-b block border-gray-300'></span>
                                     <span className='text-gray-500 text-[12px]'>Or</span>

@@ -7,7 +7,7 @@ export const useLogin = () => {
     const navigate = useNavigate(); // Initialize useNavigate
 
     return useSWRMutation(
-        '/auth/signin',
+        '/auth/signin-google',
         (url, { arg }) => {
             return axiosInstance().post(url, arg);
         },
