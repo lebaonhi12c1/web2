@@ -4,7 +4,9 @@ import classNames from 'classnames';
 
 const HeaderRoot = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [user, setUser] = useState(localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null);
   const [navbarOpen, setNavbarOpen] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(localStorage.getItem('user') !== null); // Kiểm tra đã đăng nhập hay chưa
 
   const handleDropdownToggle = () => {
     setDropdownOpen(!dropdownOpen);
@@ -14,24 +16,34 @@ const HeaderRoot = () => {
     setNavbarOpen(!navbarOpen);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('user'); // Xóa thông tin người dùng trong localStorage
+    setLoggedIn(false); // Cập nhật trạng thái đã đăng nhập
+    setDropdownOpen(false);
+  };
+
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900">
       <div className="flex flex-wrap items-center justify-between mx-auto py-4 max-w-[992px]">
         <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <img  src="https://atlanticjsc.com.vn/wp-content/uploads/2018/09/WHO-Logo-1.png" className="h-8" alt="Brand Name" />
+          <img src="https://atlanticjsc.com.vn/wp-content/uploads/2018/09/WHO-Logo-1.png" className="h-8" alt="Brand Name" />
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">BrandName</span>
         </Link>
         <div className=" relative flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-          <button
-            type="button"
-            className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-            id="user-menu-button"
-            aria-expanded={dropdownOpen}
-            onClick={handleDropdownToggle}
-          >
-            <span className="sr-only">Open user menu</span>
-            <img className="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="user photo" />
-          </button>
+          {loggedIn ? (
+            <button
+              type="button"
+              className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+              id="user-menu-button"
+              aria-expanded={dropdownOpen}
+              onClick={handleDropdownToggle}
+            >
+              <span className="sr-only">Open user menu</span>
+              <img className="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="user photo" />
+            </button>
+          ) : (
+            <Link to="/login" className="text-sm text-gray-700 hover:text-blue-500">Login/Register</Link>
+          )}
           <div
             className={classNames(
               'z-50 my-4 absolute top-[25px] right-0 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600',
@@ -42,8 +54,8 @@ const HeaderRoot = () => {
             id="user-dropdown"
           >
             <div className="px-4 py-3">
-              <span className="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
-              <span className="block text-sm text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
+              <span className="block text-sm text-gray-900 dark:text-white">{user?.fullname ? user?.fullname : 'No name'}</span>
+              <span className="block text-sm text-gray-500 truncate dark:text-gray-400">{user?.email ? user?.email : 'No email'}</span>
             </div>
             <ul className="py-2" aria-labelledby="user-menu-button">
               <li>
@@ -74,6 +86,7 @@ const HeaderRoot = () => {
                 <Link
                   to="#"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                  onClick={handleLogout} // Xử lý logout khi click vào Sign out
                 >
                   Sign out
                 </Link>

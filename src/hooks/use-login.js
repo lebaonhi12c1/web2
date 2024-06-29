@@ -25,6 +25,7 @@ export const useLogin = () => {
                             method: 'GET',
                             headers: {
                                 'Content-Type': 'application/json',
+                                Authorization: `Bearer ${token}`,
                             },
                         });
                 
@@ -32,6 +33,7 @@ export const useLogin = () => {
                 
                         if (response.ok) 
                         {
+                            localStorage.setItem('user', JSON.stringify(data?.data));
                             console.log('Login successful:', data);
                             // Handle successful login (e.g., redirect, store token, etc.)
                         } 
