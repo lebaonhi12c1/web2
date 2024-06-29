@@ -39,7 +39,7 @@ const HeaderRoot = () => {
               onClick={handleDropdownToggle}
             >
               <span className="sr-only">Open user menu</span>
-              <img className="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="user photo" />
+              <img className="w-8 h-8 rounded-full" src={user?.avatar} alt="user photo" />
             </button>
           ) : (
             <Link to="/login" className="text-sm text-gray-700 hover:text-blue-500">Login/Register</Link>
