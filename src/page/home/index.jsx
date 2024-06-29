@@ -4,9 +4,9 @@ import { products } from '@/datas/product';
 
 const Home = memo(() => {
     return (
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
             {products.map((product, index) => (
-                <div key={index} className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <div key={index} className="w-full lg:max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <Link to={`/product/${product.id}`}>
                         <img className="rounded-t-lg" src={product.imageCover} alt={product.title} />
                     </Link>
