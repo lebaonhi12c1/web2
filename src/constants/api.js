@@ -1,1 +1,1 @@
-export const login = import.meta.env.VITE_APP_API_HOST +  "/login"
+export const login = import.meta.env.VITE_APP_API_HOST +  "/api/auth/signin"
