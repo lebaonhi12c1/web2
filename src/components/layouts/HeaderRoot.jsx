@@ -23,7 +23,7 @@ const HeaderRoot = () => {
   };
 
   return (
-    <nav className="bg-white border-gray-200 dark:bg-gray-900">
+    <nav className="bg-white border-gray-200 dark:bg-gray-900 sticky top-0 left-0">
       <div className="flex flex-wrap items-center justify-between mx-auto py-4 max-w-[992px]">
         <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <img src="https://atlanticjsc.com.vn/wp-content/uploads/2018/09/WHO-Logo-1.png" className="h-8" alt="Brand Name" />
