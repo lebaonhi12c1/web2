@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 
-const HighlightText = ({ text, highlight }) => {
+const HighlightText = ({ text, hightlight }) => {
     const [message, setMessage] = useState('');
 
     const handleHighlightClick = () => {
         setMessage('Bạn đã click vào đoạn text được highlight!');
     };
 
-    const parts = text.split(highlight);
+    const parts = text.split(hightlight);
 
     return (
         <div>
@@ -19,7 +19,7 @@ const HighlightText = ({ text, highlight }) => {
                             style={{ backgroundColor: 'yellow', cursor: 'pointer' }}
                             onClick={handleHighlightClick}
                         >
-                            {highlight}
+                            {hightlight}
                         </span>
                     )}
                 </span>

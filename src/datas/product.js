@@ -18,7 +18,7 @@ export const products = [
             type: "text",
           },
           {
-            type: "hightlight",
+            type: "text",
             value: `Câu chuyện bắt đầu từ những năm 1980, khi một bà mẹ có sáu người con mở một gánh bánh canh ngay bên
                 cầu Bến Có. Với lòng đam mê và bí quyết gia truyền, họ đã từng bước phát triển kinh doanh của mình.
                 Sau khi người mẹ qua đời, sáu người con đã tiếp tục nối nghiệp và phát triển thương hiệu bánh canh
