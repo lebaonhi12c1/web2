@@ -1,15 +1,14 @@
+import "./App.css";
+import { RouterProvider } from "react-router-dom";
 
-import './App.css'
-import {
-  RouterProvider,
-} from "react-router-dom";
-
-import router from '@/router';
+import router from "@/router";
+import { ProductContextProvider } from "@/context/product";
 function App() {
-
-  return (
-    <RouterProvider router={router}/>
-  )
+    return (
+        <ProductContextProvider>
+            <RouterProvider router={router} />
+        </ProductContextProvider>
+    );
 }
 
-export default App
+export default App;
